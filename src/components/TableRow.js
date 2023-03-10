@@ -1,19 +1,17 @@
+import { useContext } from "react";
+
 import TableDataCell from "./TableDataCell";
 import TableRowImage from "./TableRowImage";
 import TableExtra from "./TableExtra";
 import ActionButtons from "./ActionButtons";
+import { GlobalContext } from "../context/GlobalState";
+import { BoldUppercase } from "../services/BoldUppercase";
 
 const TableRow = ({
   item,
-  active,
-  handleUserClick,
-  handleActive,
-  changeToBoldAndUppercase,
-  displayRow,
-  handleDelete,
   itemId,
-  onEdit
 }) => {
+  const { handleUserClick, handleActive, displayRow, active } = useContext(GlobalContext);
 
 
   return (
@@ -27,13 +25,13 @@ const TableRow = ({
       <TableDataCell data={item.id} />
       <TableRowImage 
        itemId={item.id} />
-      <TableDataCell data={changeToBoldAndUppercase(item.username)} />
-      <TableDataCell data={changeToBoldAndUppercase(item.email)} />
-      <TableDataCell data={changeToBoldAndUppercase(item.address.city)} />
-      <TableDataCell data={changeToBoldAndUppercase(item.company.name)} />
+      <TableDataCell data={BoldUppercase(item.username)} />
+      <TableDataCell data={BoldUppercase(item.email)} />
+      <TableDataCell data={BoldUppercase(item.address.city)} />
+      <TableDataCell data={BoldUppercase(item.company.name)} />
       <TableDataCell data={item.website ? "true" : "False"} />
-      {displayRow && <TableExtra item={item} changeToBoldAndUppercase={changeToBoldAndUppercase}  itemId={itemId} />}
-      <ActionButtons item={item} handleDelete={handleDelete} onEdit={onEdit}   />
+      {displayRow && <TableExtra item={item}  itemId={itemId} />}
+      <ActionButtons item={item}   />
       
     </tr>
   );

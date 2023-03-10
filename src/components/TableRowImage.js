@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 
-const TableRowImage = ({  itemId }) => {
+const TableRowImage = ({ itemId }) => {
 
   const [img, setImg] = useState([]);
 

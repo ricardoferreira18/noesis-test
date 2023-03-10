@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
 import { MdOutlineDeleteOutline } from 'react-icons/md';
 import { FiEdit2 } from 'react-icons/fi';
+import { GlobalContext } from "../context/GlobalState";
 
-const ActionButtons = ({ item, handleDelete, onEdit }) => {
 
-  
+const ActionButtons = ({ item }) => {
+
+  const { handleEdit, handleDelete } = useContext(GlobalContext);
+
     return (
       <td>
         <button className="btn btn-delete"
@@ -19,7 +22,7 @@ const ActionButtons = ({ item, handleDelete, onEdit }) => {
         <button className="btn btn-edit"
           onClick={(e) => {
             e.preventDefault();
-            onEdit(true, item);
+            handleEdit(true, item)
           }}
         >
           <FiEdit2 

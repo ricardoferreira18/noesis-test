@@ -1,67 +1,10 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useContext} from "react";
 import { FaRegSave } from "react-icons/fa";
 import { GiCancel } from "react-icons/gi";
+import { GlobalContext } from "../context/GlobalState";
 
-const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
-    const [state, setState] = useState(rowInfo);
-
-    const onSubmit = () => {
-        axios
-            .put(
-                `https://jsonplaceholder.typicode.com/users/${state.id}`,
-                state
-            )
-            .then((response) => {
-                onSaved(true);
-
-                onData(response.data);
-            })
-            .catch((err) => {
-                err.message = err;
-            });
-    };
-
-    const onSave = (e) => {
-        e.preventDefault();
-        onSubmit();
-    };
-
-    const onCancel = (e) => {
-        e.preventDefault();
-        onCanceled(false);
-    };
-
-    const handleChange = (event) => {
-        setState((prev) => ({
-            ...prev,
-            [event.target.name]: event.target.value,
-        }));
-    };
-
-    const handleExtraChange = (event, path) => {
-        setState((prev) => ({
-            ...prev,
-            [path]: {
-                ...prev[path],
-                [event.target.name]: event.target.value,
-            },
-        }));
-    };
-
-    const handleGeoChange = (event) => {
-        setState((prev) => ({
-            ...prev,
-            address: {
-                ...prev.address,
-                geo: {
-                    ...prev.address.geo,
-                    [event.target.name]: event.target.value,
-                },
-            },
-        }));
-    };
-
+const EditInfo = () => {
+    const { rowInfo, handleChange, handleExtraChange, handleGeoChange, onSubmit, handleCancel } = useContext(GlobalContext);
     return (
         <>
             <h2 className="h2-edit">Edit</h2>
@@ -74,7 +17,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                             className="input-field"
                             type="text"
                             name="username"
-                            value={state.username}
+                            value={rowInfo.username}
                             onChange={(e) => handleChange(e)}
                         />
                     </div>
@@ -85,7 +28,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                             className="input-field"
                             type="text"
                             name="name"
-                            value={state.name}
+                            value={rowInfo.name}
                             onChange={(e) => handleChange(e)}
                         />
                     </div>
@@ -95,7 +38,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                             className="input-field"
                             type="text"
                             name="email"
-                            value={state.email}
+                            value={rowInfo.email}
                             onChange={(e) => handleChange(e)}
                         />
                     </div>
@@ -113,7 +56,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                                     className="input-field"
                                     type="text"
                                     name="street"
-                                    value={state.address.street}
+                                    value={rowInfo.address.street}
                                     onChange={(e) =>
                                         handleExtraChange(e, "address")
                                     }
@@ -123,7 +66,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                                     className="input-field"
                                     type="text"
                                     name="suite"
-                                    value={state.address.suite}
+                                    value={rowInfo.address.suite}
                                     onChange={(e) =>
                                         handleExtraChange(e, "address")
                                     }
@@ -133,7 +76,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                                     className="input-field"
                                     type="text"
                                     name="city"
-                                    value={state.address.city}
+                                    value={rowInfo.address.city}
                                     onChange={(e) =>
                                         handleExtraChange(e, "address")
                                     }
@@ -152,7 +95,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                                     className="input-field"
                                     type="text"
                                     name="zipcode"
-                                    value={state.address.zipcode}
+                                    value={rowInfo.address.zipcode}
                                     onChange={(e) =>
                                         handleExtraChange(e, "address")
                                     }
@@ -162,7 +105,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                                     className="input-field"
                                     type="text"
                                     name="lat"
-                                    value={state.address.geo.lat}
+                                    value={rowInfo.address.geo.lat}
                                     onChange={(e) => handleGeoChange(e)}
                                 />
                                 <label className="input-label">lng</label>
@@ -170,7 +113,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                                     className="input-field"
                                     type="text"
                                     name="lng"
-                                    value={state.address.geo.lng}
+                                    value={rowInfo.address.geo.lng}
                                     onChange={(e) => handleGeoChange(e)}
                                 />
                             </div>
@@ -182,7 +125,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                             className="input-field"
                             type="text"
                             name="phone"
-                            value={state.phone}
+                            value={rowInfo.phone}
                             onChange={(e) => handleChange(e)}
                         />
                     </div>
@@ -192,7 +135,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                             className="input-field"
                             type="text"
                             name="website"
-                            value={state.website}
+                            value={rowInfo.website}
                             onChange={(e) => handleChange(e)}
                         />
                     </div>
@@ -202,7 +145,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                             className="input-field"
                             type="text"
                             name="name"
-                            value={state.company.name}
+                            value={rowInfo.company.name}
                             onChange={(e) => handleExtraChange(e, "company")}
                         />
                     </div>
@@ -212,7 +155,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                             className="input-field"
                             type="text"
                             name="catchPhrase"
-                            value={state.company.catchPhrase}
+                            value={rowInfo.company.catchPhrase}
                             onChange={(e) => handleExtraChange(e, "company")}
                         />
                     </div>
@@ -222,7 +165,7 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                             className="input-field"
                             type="text"
                             name="bs"
-                            value={state.company.bs}
+                            value={rowInfo.company.bs}
                             onChange={(e) => handleExtraChange(e, "company")}
                         />
                     </div>
@@ -231,14 +174,14 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
                     <div style={{ display: "flex", flexDirection: "column" }}>
                         <button
                             className="btn btn-save btn-big"
-                            onClick={onSave}
+                            onClick={onSubmit}
                         >
                             <FaRegSave style={{ marginRight: "3px" }} />
                             Save
                         </button>
                         <button
                             className="btn btn-cancel btn-big"
-                            onClick={onCancel}
+                            onClick={handleCancel}
                         >
                             <GiCancel style={{ marginRight: "3px" }} />
                             Cancel
@@ -250,4 +193,4 @@ const ChangeInfo = ({ rowInfo, onSaved, onData, onCanceled }) => {
     );
 };
 
-export default ChangeInfo;
+export default EditInfo;

@@ -1,6 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 
-const TableHeader = ({ header, displayRow }) => {
+import { GlobalContext } from "../context/GlobalState";
+
+
+const TableHeader = ({ header }) => {
+  const {displayRow } = useContext(GlobalContext);
   return (
     <thead className="table-head">
       <tr>
